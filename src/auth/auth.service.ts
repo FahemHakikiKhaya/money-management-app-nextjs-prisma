@@ -2,10 +2,15 @@ import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import * as argon from 'argon2';
 import { LoginDto, RegisterDto } from './dto';
+import { JwtService } from '@nestjs/jwt';
+import { SECRET_KEY } from 'src/app.environments.';
 
 @Injectable()
 export class AuthService {
-  constructor(private prismaService: PrismaService) {}
+  constructor(
+    private prismaService: PrismaService,
+    private jwtService: JwtService,
+  ) {}
   async login(dto: LoginDto) {
     const user = await this.prismaService.user.findUnique({
       where: { email: dto.email },
@@ -15,13 +20,19 @@ export class AuthService {
       throw new ForbiddenException("Email doesn't exist");
     }
 
+    const { password, ...userWithoutPassword } = user;
+
     const pwMatches = await argon.verify(user.password, dto.password);
+
+    const accessToken = this.jwtService.sign(userWithoutPassword, {
+      secret: SECRET_KEY,
+    });
 
     if (!pwMatches) {
       throw new ForbiddenException("Email doesn't exist");
     }
 
-    return user;
+    return { ...userWithoutPassword, accessToken };
   }
 
   async register(dto: RegisterDto) {
