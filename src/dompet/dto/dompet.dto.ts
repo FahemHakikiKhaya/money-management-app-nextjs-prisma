@@ -5,11 +5,6 @@ export class DompetDto {
   @IsInt()
   @IsNotEmpty()
   @Transform(({ value }) => parseInt(value))
-  userId: number;
-
-  @IsInt()
-  @IsNotEmpty()
-  @Transform(({ value }) => parseInt(value))
   amount: number;
 
   @IsString()

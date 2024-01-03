@@ -4,6 +4,6 @@ import { DompetController } from './dompet.controller';
 
 @Module({
   providers: [DompetService],
-  controllers: [DompetController]
+  controllers: [DompetController],
 })
 export class DompetModule {}

@@ -14,26 +14,41 @@ model User {
   id        Int         @id @default(autoincrement())
   email     String      @unique
   name      String
-  password  String 
+  password  String
   dompet    Dompet[]
   transaksi Transaksi[]
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
 }
 
 model Dompet {
-  id          Int         @id @default(autoincrement())
-  user        User        @relation(fields: [userId], references: [id])
-  userId      Int
-  amount      Int
-  name        String
-  description String
-  image       String
-  transaksi   Transaksi[]
+  id            Int         @id @default(autoincrement())
+  user          User        @relation(fields: [userId], references: [id])
+  userId        Int
+  amount        Int         @db.UnsignedInt
+  accountNumber Int?        @db.UnsignedInt
+  name          String
+  description   String
+  image         String      @db.Text
+  transaksi     Transaksi[]
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
 }
 
 model TransaksiKategori {
   id        Int         @id @default(autoincrement())
   name      String
   transaksi Transaksi[]
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+}
+
+model TransaksiTipe {
+  id        Int         @id @default(autoincrement())
+  name      String
+  transaksi Transaksi[]
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
 }
 
 model Transaksi {
@@ -44,6 +59,10 @@ model Transaksi {
   dompetId            Int
   transaksiKategori   TransaksiKategori @relation(fields: [transaksiKategoriId], references: [id])
   transaksiKategoriId Int
+  transaksiTipe       TransaksiTipe     @relation(fields: [transaksiTipeId], references: [id])
+  transaksiTipeId     Int
   name                String
   description         String
+  createdAt           DateTime          @default(now())
+  updatedAt           DateTime          @updatedAt
 }
