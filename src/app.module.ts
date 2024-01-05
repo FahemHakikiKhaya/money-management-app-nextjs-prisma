@@ -4,9 +4,17 @@ import { AuthModule } from './auth/auth.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { DompetModule } from './dompet/dompet.module';
 import { TransaksiKategoriModule } from './transaksi-kategori/transaksi-kategori.module';
+import { TransaksiModule } from './transaksi/transaksi.module';
 
 @Module({
-  imports: [UserModule, AuthModule, PrismaModule, DompetModule, TransaksiKategoriModule],
+  imports: [
+    UserModule,
+    AuthModule,
+    PrismaModule,
+    DompetModule,
+    TransaksiKategoriModule,
+    TransaksiModule,
+  ],
   controllers: [],
   providers: [],
 })

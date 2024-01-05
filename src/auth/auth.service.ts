@@ -47,7 +47,13 @@ export class AuthService {
         },
       });
 
-      return user;
+      const { password, ...userWithoutPassword } = user;
+
+      const accessToken = this.jwtService.sign(userWithoutPassword, {
+        secret: SECRET_KEY,
+      });
+
+      return { ...user, accessToken };
     } catch (error) {
       return error;
     }

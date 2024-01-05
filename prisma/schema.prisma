@@ -39,6 +39,7 @@ model TransaksiKategori {
   id        Int         @id @default(autoincrement())
   name      String
   transaksi Transaksi[]
+  icon      String?
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
 }
@@ -63,6 +64,7 @@ model Transaksi {
   transaksiTipeId     Int
   name                String
   description         String
+  amount              Int               @db.UnsignedInt
   createdAt           DateTime          @default(now())
   updatedAt           DateTime          @updatedAt
 }
